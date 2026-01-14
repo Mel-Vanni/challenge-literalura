@@ -1,57 +1,81 @@
 # challenge-literalura
-Projeto desenvolvido no desafio Alura + Oracle One para praticar lógica de programação em Java.
+Projeto desenvolvido no desafio Alura + Oracle ONE, com o objetivo de praticar lógica de programação, consumo de APIs externas e persistência de dados utilizando Java e Spring Boot.
 ### O que o projeto faz?
-Este programa é um catálogo de livros que utiliza a API Gutendex para buscar informações de livros e autores do Project Gutenberg.
-Ele permite:
-- Buscar livro por título e salvar no banco de dados.
+O LiterAlura é uma aplicação de console que funciona como um catálogo de livros, consumindo dados da API Gutendex (Project Gutenberg) e armazenando as informações em um banco de dados relacional.
+A aplicação permite que o usuário interaja via terminal, escolhendo opções em um menu textual para consultar, armazenar e listar livros e autores.
+O sistema permite:
+- Buscar livros por título utilizando a API Gutendex.
+- Salvar livros e autores no banco de dados.
 - Listar todos os livros cadastrados.
 - Listar livros por idioma.
-- Listar todos os autores.
-- Listar autores vivos em determinado ano.
-O usuário interage pelo terminal, escolhendo opções no menu e digitando os dados solicitados.
-### Como rodar o projeto
+- Listar todos os autores cadastrados.
+- Listar autores vivos em um determinado ano.
+
 **1.** Pré-requisitos
-- Java 17+ instalado.
-- Maven instalado.
-- PostgreSQL instalado e rodando.
-**2.** Configuração do banco
-No arquivo src/main/resources/application.properties, configure:
+
+- Java 17.
+- Spring Boot 3.2.x.
+- Spring Data JPA.
+- Maven.
+- MySQL.
+- Jackson.
+- API Gutendex.
+
+**2.** Configuração do banco de dados
+
+Crie o banco de dados no MySQL:
 ```text
-spring.datasource.url=jdbc:postgresql://localhost:5432/literalura
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
+CREATE DATABASE literalura;
+```
+Em seguida, configure o arquivo src/main/resources/application.properties:
+```text
+spring.datasource.url=jdbc:mysql://localhost:3306/literalura
+spring.datasource.username=SEU_USUARIO
+spring.datasource.password=SUA_SENHA
+
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
-Substitua seu_usuario e sua_senha pelas credenciais do seu PostgreSQL.
+Substitua SEU_USUARIO e SUA_SENHA pelas credenciais do seu MySQL.
+
 **3.** Estrutura do projeto
+
 Certifique-se de que o projeto está organizado assim:
 ```text
 LiterAlura
 └─ src/
-   └─ main/java/com/literalura/
-       ├─ model/
-       │   ├─ Autor.java
-       │   └─ Livro.java
-       ├─ repository/
-       │   ├─ AutorRepository.java
-       │   └─ LivroRepository.java
-       ├─ service/
-       │   └─ GutendexService.java
-       └─ LiteraluraApplication.java
-└─ src/main/resources/
-   └─ application.properties
+   └─ main/
+      ├─ java/
+      │  └─ br/com/literalura/
+      │     ├─ model/
+      │     │  ├─ Autor.java
+      │     │  └─ Livro.java
+      │     ├─ repository/
+      │     │  ├─ AutorRepository.java
+      │     │  └─ LivroRepository.java
+      │     ├─ service/
+      │     │  ├─ ConsumoApi.java
+      │     │  └─ LivroService.java
+      │     ├─ Menu.java
+      │     └─ LiterAluraApplication.java
+      └─ resources/
+         └─ application.properties
 └─ pom.xml
 ```
-**4.** No terminal, dentro da pasta do projeto:
+
+**4.** Execução da aplicação
+
+No terminal, dentro da pasta do projeto:
 ```text
 mvn clean compile
 mvn spring-boot:run
 ```
 O programa exibirá o menu interativo no terminal, onde você poderá selecionar as opções disponíveis.
+
 ### Observações
-- O programa utiliza a API Gutendex, que não requer chave de acesso.
-- Apenas o primeiro idioma e o primeiro autor de cada livro são considerados, conforme especificação do desafio.
-- O banco de dados PostgreSQL será preenchido automaticamente ao buscar livros no menu.
-- Você pode adicionar mais funcionalidades, como estatísticas ou filtros avançados, editando os métodos existentes.
-- Utilizei o Visual Studio Code como ambiente de desenvolvimento.
+- A API Gutendex não requer chave de acesso.
+- O projeto utiliza persistência automática com JPA/Hibernate.
+- A aplicação foi desenvolvida para rodar exclusivamente via terminal.
+- O ambiente de desenvolvimento utilizado foi o Visual Studio Code.
+- O projeto atende integralmente aos requisitos do desafio proposto pela Alura.
